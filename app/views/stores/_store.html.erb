@@ -7,10 +7,10 @@
 <h2>Contatos</h2>
 <ul> 
   
-  <%= @store.contacts.each do |contact|%>
+  <% @store.contacts.each do |contact|%>
   <li> 
-  <strong> <%= @contact.type %>: </strong>
-  <p><%= @contact.value %></p>
+  <strong> <%= contact.type_contact %>: </strong>
+  <p><%= contact.value_contact%> </p>
   </li>
   <% end %>
 </ul>

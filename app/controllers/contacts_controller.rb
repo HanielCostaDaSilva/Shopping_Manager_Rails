@@ -1,11 +1,9 @@
 class ContactsController < ApplicationController
   before_action :set_contact, only: %i[ show edit update destroy ]
-  before_action :set_store
-
+  before_action :set_store, only: %i[ new edit]
   # GET /contacts or /contacts.json
   def index
-    @contacts = @store.contacts
-
+    @contacts = Contact.all
   end
 
   # GET /contacts/1 or /contacts/1.json
@@ -14,7 +12,7 @@ class ContactsController < ApplicationController
 
   # GET /contacts/new
   def new
-    @contact = @store.contacts.build
+    @contact = Contact.new
   end
 
   # GET /contacts/1/edit
@@ -23,14 +21,13 @@ class ContactsController < ApplicationController
 
   # POST /contacts or /contacts.json
   def create
-    @contact = @store.contacts.build(contact_params)
-    respond_to do |format|
-      @contact = @store.contacts.build(contact_params)
-      
+    @contact = Contact.new(contact_params)
+    respond_to do |format|      
       if @contact.save
         format.html { redirect_to @contact, notice: "Contact was successfully created." }
         format.json { render :show, status: :created, location: @contact }
       else
+        set_lojas
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
       end
@@ -44,6 +41,7 @@ class ContactsController < ApplicationController
         format.html { redirect_to @contact, notice: "Contact was successfully updated." }
         format.json { render :show, status: :ok, location: @contact }
       else
+        set_lojas
         format.html { render :edit, status: :unprocessable_entity }
         format.json { render json: @contact.errors, status: :unprocessable_entity }
       end
@@ -64,15 +62,16 @@ class ContactsController < ApplicationController
     # Use callbacks to share common setup or constraints between actions.
 
     def set_contact
-      @contact = @store.contacts.find(params[:id])
+      @contact = Contact.find(params[:id])
     end
 
     def set_store
-      @store = Store.find(params[:store_id])
+      @stores = Store.all
     end
+
 
     # Only allow a list of trusted parameters through.
     def contact_params
-      params.expect(contact: [ :type_contact, :value_contact, :store_id ])
+      params.require(:contact).permit(:type_contact, :value_contact, :store_id)
     end
 end
