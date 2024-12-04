@@ -1,0 +1,18 @@
+<!-- app/views/lojas/show.html.erb -->
+
+<h1> Loja <%= @store.name %>
+
+<p><strong>Gerente:</strong> <%= @store.manager&.name %></p>
+
+<h2>Contatos</h2>
+<ul> 
+  
+  <%= @store.contacts.each do |contact|%>
+  <li> 
+  <strong> <%= @contact.type %>: </strong>
+  <p><%= @contact.value %></p>
+  </li>
+  <% end %>
+</ul>
+
+<%= link_to 'Voltar', stores_path, class: 'btn btn-secondary' %>

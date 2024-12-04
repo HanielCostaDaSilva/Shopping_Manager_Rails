@@ -1,0 +1,23 @@
+<!-- app/views/lojas/index.html.erb -->
+<h1>Lojas</h1>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Nome da Loja</th>
+      <th>Nome do Gerente</th>
+      <th>Detalhes</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @stores.each do |store| %>
+      <tr>
+        <td><%= store.id %></td>
+        <td><%= store.name %></td>
+        <td><%= store.manager&.name %></td>
+        <td><%= link_to 'Detalhes', store_path(store), class: 'btn btn-primary' %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<%= link_to 'Nova Loja', new_store_path, class: 'btn btn-success' %>
